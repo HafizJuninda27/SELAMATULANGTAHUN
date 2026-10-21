@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f7d6e0">
+<meta name="theme-color" content="#f1e9e3">
 <title>Kartu Ulang Tahun</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
             <b class="t1 line" style="--i:0">Happy Birthday</b>
             <b class="t2 line" style="--i:1">To <span id="nm"></span></b>
           </h1>
-          <div class="msg" id="msg"></div>
+          <div class="msg" id="msg" role="region" aria-label="Isi ucapan ulang tahun" tabindex="0"></div>
           <div class="sign line" id="sg"></div>
         </div>
 
@@ -50,11 +50,89 @@
           <div class="kicker">Sebelum kamu pergi...</div>
           <p class="letter-intro">Ada satu pesan kecil yang kusimpan khusus untukmu.</p>
           <div class="letter-wrap">
-            <button class="letter" id="letter" type="button" aria-label="Buka surat kecil" aria-expanded="false" aria-controls="letterMessage">
+            <button class="letter" id="letter" type="button" aria-label="Buka surat kecil" aria-expanded="false" aria-controls="bouquet">
               <span class="letter-paper">
-                <span class="letter-to">Untuk <span id="letterName"></span></span>
-                <span class="letter-message" id="letterMessage"></span>
-                <span class="letter-from">dengan hangat, <span id="letterFrom"></span></span>
+                <svg class="bouquet" id="bouquet" viewBox="0 0 300 300" role="img" aria-labelledby="bouquetTitle">
+                  <title id="bouquetTitle">Buket mawar merah muda dengan kertas dan pita krem</title>
+                  <defs>
+                    <linearGradient id="wrapCream" x1="0" y1="0" x2="1" y2="1">
+                      <stop stop-color="#fff8ed"/><stop offset=".55" stop-color="#ead8c5"/><stop offset="1" stop-color="#d5bba8"/>
+                    </linearGradient>
+                    <linearGradient id="wrapBlush" x1="0" y1="0" x2="1" y2="1">
+                      <stop stop-color="#fff1e9"/><stop offset="1" stop-color="#dfc4b7"/>
+                    </linearGradient>
+                    <radialGradient id="driftRoseShade" cx=".32" cy=".26" r=".82">
+                      <stop stop-color="#efc6bd"/><stop offset=".48" stop-color="#ce8b8e"/><stop offset="1" stop-color="#a9606c"/>
+                    </radialGradient>
+                    <linearGradient id="driftTulipShade" x1="0" y1="0" x2="1" y2="1">
+                      <stop stop-color="#e8b9b1"/><stop offset=".55" stop-color="#c98288"/><stop offset="1" stop-color="#a86670"/>
+                    </linearGradient>
+                    <g id="rose">
+                      <circle cx="32" cy="32" r="25" fill="currentColor" opacity=".48"/>
+                      <g fill="currentColor" stroke="#fff7f0" stroke-opacity=".32" stroke-width="1.1">
+                        <path d="M31 8C18 3 8 13 11 25c2 8 10 13 20 11 7-6 8-18 0-28Z" opacity=".66"/>
+                        <path d="M34 8c13-5 24 4 21 17-2 9-10 14-20 12-7-6-8-19-1-29Z" opacity=".78"/>
+                        <path d="M10 25C3 36 10 49 22 50c8 0 14-6 15-15-5-8-17-13-27-10Z" opacity=".72"/>
+                        <path d="M54 24c8 11 2 25-10 27-8 1-14-5-16-14 5-9 16-14 26-13Z" opacity=".58"/>
+                        <path d="M21 48c3 12 17 17 26 9 6-5 6-13 1-21-9-4-21 1-27 12Z" opacity=".86"/>
+                      </g>
+                      <g fill="currentColor" stroke="#fff7f0" stroke-opacity=".42" stroke-width=".9">
+                        <path d="M20 21c4-9 16-11 22-3 4 5 3 12-2 17-7 3-16-2-20-14Z" opacity=".82"/>
+                        <path d="M43 20c10 4 12 15 4 21-5 4-12 3-17-2-2-7 2-15 13-19Z" opacity=".7"/>
+                        <path d="M26 44c-10-4-12-15-4-21 5-4 12-3 17 2 2 7-2 15-13 19Z" opacity=".58"/>
+                      </g>
+                      <path d="M31 20c8-2 15 4 14 11-1 6-7 10-13 8-5-1-8-6-6-10 1-4 5-6 8-4 3 1 4 4 2 6" fill="none" stroke="#fff7f0" stroke-opacity=".72" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+                    <g id="filler">
+                      <path d="M20 52Q24 30 8 13M21 44Q35 27 36 8M17 47Q8 36 2 32" fill="none" stroke="#829176" stroke-width="1.6" stroke-linecap="round"/>
+                      <g fill="#fffaf0" stroke="#e6dcca" stroke-width=".7">
+                        <circle cx="8" cy="13" r="4"/><circle cx="36" cy="8" r="4"/><circle cx="2" cy="32" r="3.6"/>
+                        <circle cx="16" cy="25" r="3.5"/><circle cx="29" cy="22" r="3.4"/><circle cx="10" cy="40" r="3.2"/>
+                      </g>
+                      <g fill="#d5bc8e"><circle cx="8" cy="13" r="1.2"/><circle cx="36" cy="8" r="1.2"/><circle cx="2" cy="32" r="1.1"/></g>
+                    </g>
+                    <linearGradient id="tulipPetal" x1="0" y1="0" x2="1" y2="1">
+                      <stop stop-color="#e8b4ad"/><stop offset=".56" stop-color="#c77d84"/><stop offset="1" stop-color="#a85f6c"/>
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="151" cy="276" rx="69" ry="8" fill="#9f7d75" opacity=".12"/>
+                  <g class="bouquet-paper">
+                    <path d="M148 250C119 215 67 157 49 96c38 12 72 38 101 70 3-51 24-99 56-132 8 51-1 99-25 140 28-37 56-62 82-76-16 65-48 119-112 152Z" fill="url(#wrapCream)" stroke="#d6c2af" stroke-width="1.5"/>
+                    <path d="M149 246C124 206 89 151 79 108c28 21 51 44 72 72 13-49 31-88 52-117-1 47-12 90-32 131 24-28 47-48 69-60-20 52-51 91-91 112Z" fill="url(#wrapBlush)" opacity=".75"/>
+                    <path d="M62 109c30 23 52 48 72 78M235 113c-20 24-37 49-52 77" fill="none" stroke="#d5c0ad" stroke-width="1.3" opacity=".72"/>
+                  </g>
+                  <g class="bouquet-stems" fill="none" stroke="#71836b" stroke-linecap="round" stroke-width="2">
+                    <path d="M150 246 76 96M150 246 103 74M150 246 130 68M150 246 157 74M150 246 184 89M150 246 218 112M150 246 58 124M150 246 238 139"/>
+                  </g>
+                  <g class="bouquet-leaves" fill="#839579">
+                    <path d="M99 162c-24-3-34-16-34-31 21 3 32 12 34 31Zm32-27c-20-17-18-31-10-42 16 14 21 28 10 42Zm28 37c22-17 36-11 43 0-19 14-33 13-43 0Zm27-38c-7-23 3-34 16-39 7 21 2 34-16 39ZM116 199c-27 4-38-7-41-21 22-3 36 3 41 21Zm57-5c14-23 29-24 40-16-12 20-25 25-40 16Z"/>
+                  </g>
+                  <g class="bouquet-blooms">
+                    <use class="bouquet-flower" href="#rose" x="70" y="76" width="64" height="64" style="color:#c9858d"/>
+                    <use class="bouquet-flower" href="#rose" x="112" y="54" width="69" height="69" style="color:#d39a9d"/>
+                    <use class="bouquet-flower" href="#rose" x="157" y="78" width="64" height="64" style="color:#bd737e"/>
+                    <use class="bouquet-flower" href="#rose" x="56" y="125" width="66" height="66" style="color:#d39a9d"/>
+                    <use class="bouquet-flower" href="#rose" x="105" y="104" width="72" height="72" style="color:#c77e88"/>
+                    <use class="bouquet-flower" href="#rose" x="164" y="127" width="64" height="64" style="color:#d49b9e"/>
+                    <use class="bouquet-flower" href="#rose" x="112" y="158" width="62" height="62" style="color:#bd737e"/>
+                  </g>
+                  <g class="bouquet-filler" opacity=".78">
+                    <use href="#filler" x="45" y="92" width="35" height="52"/>
+                    <use href="#filler" x="218" y="98" width="36" height="54"/>
+                    <use href="#filler" x="83" y="58" width="30" height="46"/>
+                    <use href="#filler" x="190" y="57" width="31" height="47"/>
+                  </g>
+                  <g class="bouquet-wrap">
+                    <path d="m48 177 84 39 18 25-16 50-52-19-27-72Z" fill="url(#wrapCream)" stroke="#d3bdab" stroke-width="1.6"/>
+                    <path d="m252 177-84 39-18 25 16 50 52-19 27-72Z" fill="url(#wrapBlush)" stroke="#d3bdab" stroke-width="1.6"/>
+                    <path d="m48 177 84 39 18 25M252 177l-84 39-18 25" fill="none" stroke="#fff8ee" stroke-width="2" opacity=".9"/>
+                    <path d="m132 216 18 25 18-25" fill="#e8d7c6" stroke="#d3bdab" stroke-width="1.3"/>
+                    <path d="M150 239v44" stroke="#bd9e8c" stroke-width="2"/>
+                    <path d="M150 244c-12-18-36-10-29 2 5 7 17 6 29 2-3 18 13 21 17 9 2-7-6-13-17-15 17-3 30-9 24-17-7-8-22 1-24 19Z" fill="#d9b6a6" stroke="#b99787" stroke-width="1.3"/>
+                    <path d="m136 250-20 24M164 251l20 25" stroke="#c4a494" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="m116 274-4 7m4-7 7 4m67 0 4 7m-4-7-7 4" stroke="#c4a494" stroke-width="1.2" stroke-linecap="round"/>
+                  </g>
+                </svg>
               </span>
               <span class="envelope">
                 <span class="envelope-back"></span>
@@ -63,7 +141,54 @@
                 <span class="envelope-seal" aria-hidden="true">♡</span>
               </span>
             </button>
+            <div class="floating-blooms" aria-hidden="true">
+              <svg class="drift-bloom drift-rose drift-one" viewBox="0 0 72 92">
+                <path class="drift-stem" d="M36 46c0 16-3 29-10 40m8-21c-9-6-17-6-24-2 6 10 14 12 24 9m-4 8c7-8 15-10 22-7-4 10-11 14-22 13"/>
+                <path class="rose-outer" d="M35 49C18 51 8 40 12 26c2-8 9-14 18-14 7-8 20-7 26 1 11 1 18 11 14 22-2 8-9 13-17 14-6 5-12 6-18 0Z"/>
+                <path class="rose-inner" d="M30 39c-7-5-5-14 2-16 3-7 13-7 16-1 8 1 10 10 4 14-1 7-9 10-14 5-4 2-8 1-8-2Z"/>
+                <path class="rose-fold" d="M28 19c4 4 5 8 3 12m20-11c-4 3-6 7-5 11M18 31c5-2 9-2 13 1m23 3c-4-2-8-2-12 0"/>
+              </svg>
+              <svg class="drift-bloom drift-tulip drift-two" viewBox="0 0 72 100">
+                <path class="drift-stem" d="M36 42c0 20-2 36-8 53m8-28c-9-9-18-11-26-7 5 12 13 16 26 16m3-4c7-11 15-14 23-12-3 12-11 18-24 20"/>
+                <path class="tulip-cup" d="M19 39c-4-10-2-21 3-31 2 9 7 14 14 17 7-3 12-8 14-17 5 10 7 21 3 31-4 10-12 15-17 15S23 49 19 39Z"/>
+                <path class="tulip-fold" d="M36 49c-2-12-1-25 0-35m0 18c-5-3-9-8-12-14m12 14c5-3 9-8 12-14"/>
+              </svg>
+              <svg class="drift-bloom drift-tulip drift-three" viewBox="0 0 72 100">
+                <path class="drift-stem" d="M36 42c0 20 2 36 8 53m-6-28c-8-9-17-12-26-9 4 12 12 17 25 18m5-5c7-10 15-13 23-10-4 12-12 17-25 19"/>
+                <path class="tulip-cup" d="M19 39c-4-10-2-21 3-31 2 9 7 14 14 17 7-3 12-8 14-17 5 10 7 21 3 31-4 10-12 15-17 15S23 49 19 39Z"/>
+                <path class="tulip-fold" d="M36 49c-2-12-1-25 0-35m0 18c-5-3-9-8-12-14m12 14c5-3 9-8 12-14"/>
+              </svg>
+              <svg class="drift-bloom drift-rose drift-four" viewBox="0 0 72 92">
+                <path class="drift-stem" d="M36 46c0 16-3 29-10 40m8-21c-9-6-17-6-24-2 6 10 14 12 24 9m-4 8c7-8 15-10 22-7-4 10-11 14-22 13"/>
+                <path class="rose-outer" d="M35 49C18 51 8 40 12 26c2-8 9-14 18-14 7-8 20-7 26 1 11 1 18 11 14 22-2 8-9 13-17 14-6 5-12 6-18 0Z"/>
+                <path class="rose-inner" d="M30 39c-7-5-5-14 2-16 3-7 13-7 16-1 8 1 10 10 4 14-1 7-9 10-14 5-4 2-8 1-8-2Z"/>
+                <path class="rose-fold" d="M28 19c4 4 5 8 3 12m20-11c-4 3-6 7-5 11M18 31c5-2 9-2 13 1m23 3c-4-2-8-2-12 0"/>
+              </svg>
+              <svg class="drift-bloom drift-tulip drift-five" viewBox="0 0 72 100">
+                <path class="drift-stem" d="M36 42c0 20-2 36-8 53m8-28c-9-9-18-11-26-7 5 12 13 16 26 16m3-4c7-11 15-14 23-12-3 12-11 18-24 20"/>
+                <path class="tulip-cup" d="M19 39c-4-10-2-21 3-31 2 9 7 14 14 17 7-3 12-8 14-17 5 10 7 21 3 31-4 10-12 15-17 15S23 49 19 39Z"/>
+                <path class="tulip-fold" d="M36 49c-2-12-1-25 0-35m0 18c-5-3-9-8-12-14m12 14c5-3 9-8 12-14"/>
+              </svg>
+              <svg class="drift-bloom drift-rose drift-six" viewBox="0 0 72 92">
+                <path class="drift-stem" d="M36 46c0 16-3 29-10 40m8-21c-9-6-17-6-24-2 6 10 14 12 24 9m-4 8c7-8 15-10 22-7-4 10-11 14-22 13"/>
+                <path class="rose-outer" d="M35 49C18 51 8 40 12 26c2-8 9-14 18-14 7-8 20-7 26 1 11 1 18 11 14 22-2 8-9 13-17 14-6 5-12 6-18 0Z"/>
+                <path class="rose-inner" d="M30 39c-7-5-5-14 2-16 3-7 13-7 16-1 8 1 10 10 4 14-1 7-9 10-14 5-4 2-8 1-8-2Z"/>
+                <path class="rose-fold" d="M28 19c4 4 5 8 3 12m20-11c-4 3-6 7-5 11M18 31c5-2 9-2 13 1m23 3c-4-2-8-2-12 0"/>
+              </svg>
+              <svg class="drift-bloom drift-rose drift-seven" viewBox="0 0 72 92">
+                <path class="drift-stem" d="M36 46c0 16-3 29-10 40m8-21c-9-6-17-6-24-2 6 10 14 12 24 9m-4 8c7-8 15-10 22-7-4 10-11 14-22 13"/>
+                <path class="rose-outer" d="M35 49C18 51 8 40 12 26c2-8 9-14 18-14 7-8 20-7 26 1 11 1 18 11 14 22-2 8-9 13-17 14-6 5-12 6-18 0Z"/>
+                <path class="rose-inner" d="M30 39c-7-5-5-14 2-16 3-7 13-7 16-1 8 1 10 10 4 14-1 7-9 10-14 5-4 2-8 1-8-2Z"/>
+                <path class="rose-fold" d="M28 19c4 4 5 8 3 12m20-11c-4 3-6 7-5 11M18 31c5-2 9-2 13 1m23 3c-4-2-8-2-12 0"/>
+              </svg>
+              <svg class="drift-bloom drift-tulip drift-eight" viewBox="0 0 72 100">
+                <path class="drift-stem" d="M36 42c0 20 2 36 8 53m-6-28c-8-9-17-12-26-9 4 12 12 17 25 18m5-5c7-10 15-13 23-10-4 12-12 17-25 19"/>
+                <path class="tulip-cup" d="M19 39c-4-10-2-21 3-31 2 9 7 14 14 17 7-3 12-8 14-17 5 10 7 21 3 31-4 10-12 15-17 15S23 49 19 39Z"/>
+                <path class="tulip-fold" d="M36 49c-2-12-1-25 0-35m0 18c-5-3-9-8-12-14m12 14c5-3 9-8 12-14"/>
+              </svg>
+            </div>
           </div>
+          <div class="bouquet-caption">Bunga untukmu</div>
           <div class="letter-hint" id="letterHint">Ketuk segelnya untuk membuka surat.</div>
           <div class="tiny-confetti" aria-hidden="true"><span>✦</span><span>·</span><span>✧</span></div>
         </div>
@@ -72,6 +197,7 @@
       <div class="cover" id="cover">
         <div class="face front" id="front">
           <div class="orn"><i></i></div>
+          <div class="cover-edition">EDISI KHUSUS</div>
           <div class="h foil">Happy</div>
           <div class="b foil">Birthday</div>
           <div class="rule"></div>
@@ -102,18 +228,19 @@
 <script>
 window.KARTU = {
   nama: "Aissha Rahmadhani",        // nama penerima
-  dari: "Temanmu",                  // nama pengirim
-  foto: "",                         // foto polaroid, mis. "foto.jpg" (taruh satu folder dengan index.html). Kosong = tanpa foto
-  caption: "",                      // tulisan di bawah foto. Kosong = pakai nama penerima
+  dari: "Juninda",                  // nama pengirim
+  foto: "foto.jpg",                         // foto polaroid, mis. "foto.jpg" (taruh satu folder dengan index.html). Kosong = tanpa foto
+  caption: "Aissha Rahmadhani",                      // tulisan di bawah foto. Kosong = pakai nama penerima
   pesan: [                          // tiap baris = satu paragraf, boleh tambah/kurangi
-    "Selamat ulang tahun, {nama}.",
-    "Hari ini adalah harimu, nikmati setiap detiknya.",
+    "Selamat ulang tahun, {nama}. Semoga panjang umur dan panjang juga tenangnya.",
+    "Semoga di usia yang baru, hal-hal baik datang dengan langkah yang pelan tapi menetap. Semoga hatimu tetap lembut, tetap kuat melewati banyak hal, dan tetap menjadi rumah yang nyaman untuk dirimu sendiri.",
+    "Terima kasih sudah bertahan sejauh ini, meski dunia kadang tidak selalu ramah. Semoga semesta selalu menjaga langkahmu, dipertemukan dengan orang-orang yang tulus, dan diberi lebih banyak hari untuk merasa cukup dan dicintai.",
+    "Karena beberapa orang hadir bukan hanya untuk singgah, tapi untuk membuat dunia terasa sedikit lebih hangat. Dan semoga kamu selalu menjadi salah satunya.",
     "Semoga kamu selalu diberi kesehatan, kebahagiaan, dan kemudahan dalam segala hal.",
     "Terima kasih untuk semua momen baik selama ini.",
     "Sekali lagi, selamat ulang tahun!"
   ],
   doa: "Semoga permintaanmu terkabul, {nama}.",             // muncul setelah lilin ditiup
-  hadiah: "Traktiran makan bareng, kamu yang pilih tempatnya.", // pesan kecil di dalam surat
   harapan: ["Sehat selalu", "Bahagia", "Rezeki lancar", "Dimudahkan", "Panjang umur", "Banyak tawa", "Impian terwujud", "Dikelilingi orang baik"] // muncul saat gelembung dipecah
 };
 </script>

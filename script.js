@@ -1,6 +1,6 @@
 /* isi kartu diatur di index.html (window.KARTU); ini hanya nilai cadangan */
 var DEF = { nama: "Sahabat", dari: "Temanmu", foto: "", caption: "", doa: "Semoga permintaanmu terkabul, {nama}.",
-  hadiah: "Satu kejutan kecil untukmu.", pesan: ["Selamat ulang tahun, {nama}."], harapan: ["Sehat selalu", "Bahagia"] };
+  pesan: ["Selamat ulang tahun, {nama}."], harapan: ["Sehat selalu", "Bahagia"] };
 var CONFIG = window.KARTU || {};
 for (var key in DEF) if (CONFIG[key] == null || (key !== "foto" && key !== "caption" && CONFIG[key] === "") || (key === "pesan" && !CONFIG.pesan.length)) CONFIG[key] = DEF[key];
 
@@ -21,7 +21,6 @@ function fill() {
   $("nm").textContent = n; $("forname").textContent = "untuk " + n; $("cap").textContent = (CONFIG.caption || n).replace("{nama}", n);
   $("initial").textContent = n.charAt(0).toUpperCase();
   $("doa").textContent = CONFIG.doa.replace("{nama}", n);
-  $("letterName").textContent = n; $("letterMessage").textContent = CONFIG.hadiah; $("letterFrom").textContent = CONFIG.dari;
   $("msg").innerHTML = "";
   CONFIG.pesan.forEach(function (t, i) {
     var p = document.createElement("p"); p.className = "line"; p.style.setProperty("--i", i + 2);
@@ -322,24 +321,26 @@ function blow() {
 }
 function toGift() {
   stage = "gift"; petalsOn = false; scene.classList.add("gift"); calm = true; motion();
-  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false");
+  scene.classList.remove("letter-opened");
+  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false"); $("letter").setAttribute("aria-label", "Buka surat kecil");
   $("letterHint").textContent = "Ketuk segelnya untuk membuka surat."; $("letterHint").classList.remove("open");
   setAction("Buka surat kecil", true);
 }
 function openLetter() {
   if (stage !== "gift") return;
-  stage = "end"; $("letter").classList.add("open"); $("letter").setAttribute("aria-expanded", "true");
-  $("letterHint").textContent = "Semoga ini membuatmu tersenyum."; $("letterHint").classList.add("open");
+  stage = "end"; scene.classList.add("letter-opened"); $("letter").classList.add("open"); $("letter").setAttribute("aria-expanded", "true");
+  $("letter").setAttribute("aria-label", "Buket bunga untuk " + CONFIG.nama);
+  $("letterHint").textContent = "♡"; $("letterHint").classList.add("open");
   chime(); var r = $("letter").getBoundingClientRect(); lightBurst(r.left + r.width / 2, r.top + r.height * .43, 12);
   setAction("Ulangi kartu", true);
 }
 function boot() {
   clearTimeout(actionTimer); clearTimeout(sealTimer); stage = "intro"; P = 0; pressing = false;
   petalsOn = false; petals = []; parts = []; stopName();
-  scene.classList.remove("ready", "opened", "wish", "blown", "gift");
+  scene.classList.remove("ready", "opened", "wish", "blown", "gift", "letter-opened");
   co = coT = cvel = 0; coOn = false; calm = false; setCover(); $("candle").classList.remove("lean");
   setP(0); seal.classList.remove("holding", "in"); hint.classList.remove("hide"); setAction("", false);
-  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false");
+  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false"); $("letter").setAttribute("aria-label", "Buka surat kecil");
   $("letterHint").textContent = "Ketuk segelnya untuk membuka surat."; $("letterHint").classList.remove("open");
   fill(); void scene.offsetWidth; scene.classList.add("ready");
   sealTimer = setTimeout(function () { seal.classList.add("in"); }, 1700);   /* segel muncul setelah sampul tertata */
