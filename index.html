@@ -16,7 +16,7 @@
 <div class="veil" id="veil"><div class="veil-sub" id="veilSub">Selamat ulang tahun</div></div>
 <canvas id="fx"></canvas>
 <canvas id="nfx"></canvas>
-<button class="mute" id="mute" type="button" aria-pressed="false">Audio: aktif</button>
+<button class="mute" id="mute" type="button" aria-pressed="true">Audio: aktif</button>
 <div class="toast" id="toast" role="status"></div>
 
 <main class="scene" id="scene">
@@ -37,9 +37,9 @@
 
         <div class="pane pane-wish">
           <div class="kicker">Satu hal lagi</div>
-          <div class="candle" id="candle" role="button" aria-label="Tiup lilin">
+          <button class="candle" id="candle" type="button" aria-label="Tiup lilin">
             <div class="glow"></div><div class="flame"></div><div class="smoke"></div>
-          </div>
+          </button>
           <div class="wtext">
             <span class="w-before">Tutup mata sebentar, buat satu permintaan, lalu tiup lilinnya.</span>
             <span class="w-after" id="doa"></span>
@@ -50,7 +50,7 @@
           <div class="kicker">Sebelum kamu pergi...</div>
           <p class="letter-intro">Ada satu pesan kecil yang kusimpan khusus untukmu.</p>
           <div class="letter-wrap">
-            <button class="letter" id="letter" type="button" aria-label="Buka surat kecil" aria-expanded="false">
+            <button class="letter" id="letter" type="button" aria-label="Buka surat kecil" aria-expanded="false" aria-controls="letterMessage">
               <span class="letter-paper">
                 <span class="letter-to">Untuk <span id="letterName"></span></span>
                 <span class="letter-message" id="letterMessage"></span>

@@ -20,7 +20,8 @@ function fill() {
   var n = CONFIG.nama;
   $("nm").textContent = n; $("forname").textContent = "untuk " + n; $("cap").textContent = (CONFIG.caption || n).replace("{nama}", n);
   $("initial").textContent = n.charAt(0).toUpperCase();
-  $("doa").textContent = CONFIG.doa.replace("{nama}", n); $("pz").textContent = CONFIG.hadiah;
+  $("doa").textContent = CONFIG.doa.replace("{nama}", n);
+  $("letterName").textContent = n; $("letterMessage").textContent = CONFIG.hadiah; $("letterFrom").textContent = CONFIG.dari;
   $("msg").innerHTML = "";
   CONFIG.pesan.forEach(function (t, i) {
     var p = document.createElement("p"); p.className = "line"; p.style.setProperty("--i", i + 2);
@@ -57,10 +58,6 @@ function confetti(n, ox, oy, color) {
     parts.push({ x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, w: 4 + Math.random() * 5, h: 2 + Math.random() * 2.5,
       round: Math.random() < .35, c: cols[i % cols.length], r: Math.random() * 6, vr: (Math.random() - .5) * .25, l: 120 + Math.random() * 60 });
   }
-  kick();
-}
-function spark(x, y) {
-  parts.push({ x: x, y: y, vx: (Math.random() - .5) * .8, vy: (Math.random() - .6) * .6, s: .8 + Math.random() * 1.2, l: 34, l0: 34, spark: 1 });
   kick();
 }
 function lightBurst(ox, oy, n) {
@@ -147,10 +144,9 @@ function mStep(t) {
   if (busy) requestAnimationFrame(mStep); else mRun = false;
 }
 
-var lastSpark = 0;
 addEventListener("pointermove", function (e) {
   var x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
-  calm = scratching || stage === "gift"; tgx = x; tgy = y; motion();
+  calm = stage === "gift" || stage === "end"; tgx = x; tgy = y; motion();
   var r = document.documentElement.style;
   r.setProperty("--mx", (50 + x * 80) + "%"); r.setProperty("--my", (30 + y * 60) + "%");
 });
@@ -158,45 +154,29 @@ addEventListener("pointermove", function (e) {
 /* ---------- suara (WebAudio, tanpa file) ---------- */
 var ac, master, muted = false;
 function initAudio() {
-  if (!ac) { var A = window.AudioContext || window.webkitAudioContext; if (A) { ac = new A(); master = ac.createGain(); master.gain.value = .14; master.connect(ac.destination); } }
+  if (!ac) { var A = window.AudioContext || window.webkitAudioContext; if (A) { ac = new A(); master = ac.createGain(); master.gain.value = .065; master.connect(ac.destination); } }
   if (ac && ac.state === "suspended") ac.resume();
 }
 function note(f, t, d, type) {
   if (!ac || muted) return;
   var o = ac.createOscillator(), g = ac.createGain();
   o.type = type || "sine"; o.frequency.value = f;
-  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + .01); g.gain.exponentialRampToValueAtTime(.001, t + d);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.2, t + .035); g.gain.exponentialRampToValueAtTime(.001, t + d);
   o.connect(g); g.connect(master); o.start(t); o.stop(t + d + .05);
 }
-function chime() { if (!ac) return; var t = ac.currentTime; note(880, t, 1.4); note(1318.5, t + .12, 1.6); }
-function tickSnd() { if (ac) note(520 + Math.random() * 80, ac.currentTime, .1, "triangle"); }
-function popSnd() {
-  if (!ac || muted) return;
-  var n = ac.sampleRate * .08, b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0);
-  for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) * .6;
-  var s = ac.createBufferSource(); s.buffer = b; s.connect(master); s.start();
-}
-function windSnd() {
-  if (!ac || muted) return;
-  var n = ac.sampleRate * .6, b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0), f = ac.createBiquadFilter(), g = ac.createGain();
-  for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * i / n);
-  f.type = "bandpass"; f.frequency.value = 900; g.gain.value = .7;
-  var s = ac.createBufferSource(); s.buffer = b; s.connect(f); f.connect(g); g.connect(master); s.start();
-}
-var lastScr = 0;
-function scrSnd() {
-  if (!ac || muted) return;
-  var n = ac.sampleRate * .05, b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0), f = ac.createBiquadFilter();
-  for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) * .3;
-  f.type = "highpass"; f.frequency.value = 2500;
-  var s = ac.createBufferSource(); s.buffer = b; s.connect(f); f.connect(master); s.start();
-}
+function chime() { if (!ac || muted) return; var t = ac.currentTime; note(587.33, t, .7); note(783.99, t + .14, .85); }
+function tickSnd() { if (ac && !muted) note(659.25, ac.currentTime, .12); }
+function popSnd() { if (ac && !muted) note(739.99, ac.currentTime, .18); }
 function musicBox() {
-  if (!ac) return;
-  var t = ac.currentTime + .1, seq = [523.25, 659.25, 783.99, 1046.5, 783.99, 659.25, 587.33, 698.46, 880, 1174.66, 880, 698.46, 659.25, 783.99, 1046.5, 1318.5];
-  seq.forEach(function (f, i) { note(f, t + i * .28, 1.4); });
+  if (!ac || muted) return;
+  var t = ac.currentTime + .08, seq = [523.25, 659.25, 783.99];
+  seq.forEach(function (f, i) { note(f, t + i * .2, .8); });
 }
-$("mute").onclick = function () { muted = !muted; this.setAttribute("aria-pressed", muted); this.textContent = muted ? "Suara: mati" : "Suara: nyala"; };
+$("mute").onclick = function () {
+  muted = !muted; this.setAttribute("aria-pressed", !muted);
+  this.textContent = muted ? "Audio: mati" : "Audio: aktif";
+  if (!muted) initAudio();
+};
 
 /* ---------- gelembung harapan ---------- */
 var BCOL = ["#e8d4c4", "#d9c8b8", "#e2c4c7", "#eee3d4", "#d6c7c5", "#e7d6c8"], toastT = 0;
@@ -334,28 +314,42 @@ function toWish() {
 function blow() {
   if (stage !== "wish") return;
   var fl = $("candle").querySelector(".flame").getBoundingClientRect(), ox = fl.left + fl.width / 2, oy = fl.top + fl.height / 2;
-  stage = "done"; petalsOn = false; petals = []; setAction("", false); $("candle").classList.add("lean"); windSnd();
+  stage = "done"; petalsOn = false; petals = []; setAction("", false); $("candle").classList.add("lean");
   setTimeout(function () { scene.classList.add("blown"); $("candle").classList.remove("lean"); lightBurst(ox, oy, 26); }, 320);
   kick();
   setTimeout(musicBox, 500);
-  setTimeout(function () { nameFX(ox, oy, function () { setAction("Kejutan terakhir", true); }); }, 700);
+  setTimeout(function () { nameFX(ox, oy, function () { setAction("Lihat surat kecil", true); }); }, 700);
 }
-function toGift() { stage = "gift"; petalsOn = false; scene.classList.add("gift"); calm = true; motion(); setAction("", false); setTimeout(initScratch, 50); }
+function toGift() {
+  stage = "gift"; petalsOn = false; scene.classList.add("gift"); calm = true; motion();
+  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false");
+  $("letterHint").textContent = "Ketuk segelnya untuk membuka surat."; $("letterHint").classList.remove("open");
+  setAction("Buka surat kecil", true);
+}
+function openLetter() {
+  if (stage !== "gift") return;
+  stage = "end"; $("letter").classList.add("open"); $("letter").setAttribute("aria-expanded", "true");
+  $("letterHint").textContent = "Semoga ini membuatmu tersenyum."; $("letterHint").classList.add("open");
+  chime(); var r = $("letter").getBoundingClientRect(); lightBurst(r.left + r.width / 2, r.top + r.height * .43, 12);
+  setAction("Ulangi kartu", true);
+}
 function boot() {
   clearTimeout(actionTimer); clearTimeout(sealTimer); stage = "intro"; P = 0; pressing = false;
   petalsOn = false; petals = []; parts = []; stopName();
   scene.classList.remove("ready", "opened", "wish", "blown", "gift");
   co = coT = cvel = 0; coOn = false; calm = false; setCover(); $("candle").classList.remove("lean");
   setP(0); seal.classList.remove("holding", "in"); hint.classList.remove("hide"); setAction("", false);
-  $("ghint").textContent = "Gosok kotak di atas dengan jarimu."; $("ghint").classList.remove("done");
+  $("letter").classList.remove("open"); $("letter").setAttribute("aria-expanded", "false");
+  $("letterHint").textContent = "Ketuk segelnya untuk membuka surat."; $("letterHint").classList.remove("open");
   fill(); void scene.offsetWidth; scene.classList.add("ready");
   sealTimer = setTimeout(function () { seal.classList.add("in"); }, 1700);   /* segel muncul setelah sampul tertata */
 }
 action.onclick = function () {
   initAudio();
-  if (stage === "reading") toWish(); else if (stage === "wish") blow(); else if (stage === "done") toGift(); else if (stage === "end") boot();
+  if (stage === "reading") toWish(); else if (stage === "wish") blow(); else if (stage === "done") toGift(); else if (stage === "gift") openLetter(); else if (stage === "end") boot();
 };
 $("candle").onclick = blow;
+$("letter").onclick = openLetter;
 
 /* ---------- membuka segel: ketuk beberapa kali ATAU tahan ---------- */
 var P = 0, pressing = false, downAt = 0, lastT = 0, rafP = 0;
@@ -385,47 +379,5 @@ front.addEventListener("pointerup", release);
 front.addEventListener("pointercancel", release);
 seal.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); initAudio(); setP(1); } });
 front.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-
-/* ---------- kotak gosok (foil rose gold) ---------- */
-var sc = $("sc"), sx = sc.getContext("2d"), scratching = false, revealed = false, moves = 0, last = null;
-function initScratch() {
-  var w = sc.parentNode.clientWidth, h = sc.parentNode.clientHeight;
-  sc.width = w * DPR; sc.height = h * DPR; sx.setTransform(DPR, 0, 0, DPR, 0, 0); revealed = false; moves = 0; last = null; sc.parentNode.classList.remove("won");
-  sc.style.transition = "none"; sc.style.opacity = 1; sx.globalCompositeOperation = "source-over";
-  var g = sx.createLinearGradient(0, 0, w, h);
-  g.addColorStop(0, "#d9a99c"); g.addColorStop(.35, "#f6dcd0"); g.addColorStop(.6, "#e2b3a6"); g.addColorStop(1, "#c98f84");
-  sx.fillStyle = g; sx.fillRect(0, 0, w, h);
-  sx.fillStyle = "rgba(255,255,255,.2)"; for (var i = 0; i < w; i += 9) sx.fillRect(i, 0, 2, h);
-  var sh = sx.createLinearGradient(0, h, w, 0); sh.addColorStop(.42, "rgba(255,255,255,0)"); sh.addColorStop(.5, "rgba(255,255,255,.38)"); sh.addColorStop(.58, "rgba(255,255,255,0)");
-  sx.fillStyle = sh; sx.fillRect(0, 0, w, h);
-  for (i = 0; i < 220; i++) { sx.fillStyle = Math.random() < .5 ? "rgba(255,255,255,.45)" : "rgba(130,70,70,.16)"; sx.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 1.5, 1 + Math.random() * 1.5); }
-  sx.shadowColor = "rgba(255,255,255,.7)"; sx.shadowOffsetY = 1;
-  sx.fillStyle = "#8f5a58"; sx.textAlign = "center"; sx.textBaseline = "middle";
-  sx.font = "italic 600 " + Math.round(h * .2) + "px 'Cormorant Garamond', Georgia, serif"; sx.fillText("Gosok di sini", w / 2, h / 2); sx.shadowColor = "transparent";
-}
-function scratchTo(e) {
-  if (!scratching || revealed) return;
-  var x = e.offsetX, y = e.offsetY;
-  sx.globalCompositeOperation = "destination-out"; sx.lineCap = sx.lineJoin = "round"; sx.lineWidth = sc.clientHeight * .22;
-  sx.beginPath(); sx.moveTo(last ? last.x : x, last ? last.y : y); sx.lineTo(x + .1, y); sx.stroke(); last = { x: x, y: y };
-  if (Math.random() < .22) spark(e.clientX, e.clientY);
-  if (e.timeStamp - lastScr > 80) { lastScr = e.timeStamp; scrSnd(); }
-  if (++moves % 6 === 0) checkReveal();
-}
-function checkReveal() {
-  var d = sx.getImageData(0, 0, sc.width, sc.height).data, n = 0, t = 0;
-  for (var i = 3; i < d.length; i += 64) { t++; if (d[i] < 128) n++; }
-  if (n / t > .5) {
-    revealed = true; sc.style.transition = "opacity .7s"; sc.style.opacity = 0;
-    $("ghint").textContent = "Selamat menikmati, " + CONFIG.nama + "."; $("ghint").classList.add("done");
-    stage = "end"; sc.parentNode.classList.add("won");
-    var cr = sc.getBoundingClientRect(); lightBurst(cr.left + cr.width / 2, cr.top + cr.height / 2, 40);
-    confetti(46, innerWidth / 2, innerHeight * .5); chime();
-    setTimeout(function () { setAction("Putar ulang", true); }, 1800);
-  }
-}
-sc.addEventListener("pointerdown", function (e) { scratching = true; last = null; try { sc.setPointerCapture(e.pointerId); } catch (x) {} scratchTo(e); });
-sc.addEventListener("pointermove", scratchTo);
-["pointerup", "pointercancel"].forEach(function (ev) { sc.addEventListener(ev, function () { scratching = false; last = null; }); });
 
 boot();
